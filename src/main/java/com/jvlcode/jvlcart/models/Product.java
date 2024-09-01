@@ -1,5 +1,9 @@
 package com.jvlcode.jvlcart.models;
 
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -75,6 +79,36 @@ public class Product {
 	private String seller;
 	private int stock;
 	private int numOfReviews;
+	
+	@ElementCollection
+	@Column(name="image_url")
+	private List<String> images;
+	
+
+	public List<String> getImages() {
+		return images;
+	}
+	public void setImages(List<String> images) {
+		this.images = images;
+	}
+	
+	
+	public Product(String name, double price, String description, double ratings, String category, String seller,
+			int stock, int numOfReviews, List<String> images) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.description = description;
+		this.ratings = ratings;
+		this.category = category;
+		this.seller = seller;
+		this.stock = stock;
+		this.numOfReviews = numOfReviews;
+		this.images = images;
+	}
+	public Product() {
+		super();
+	}
 	
 	
 }
