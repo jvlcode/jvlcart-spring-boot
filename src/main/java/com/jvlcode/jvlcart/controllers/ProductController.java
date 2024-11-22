@@ -26,9 +26,18 @@ public class ProductController {
 	
 	@GetMapping
 	public Map<String, Object> getAllProducts(@RequestParam(defaultValue = "0") int page, 
-            @RequestParam(defaultValue = "3") int size) {
+            @RequestParam(defaultValue = "3") int size,  
+		 	@RequestParam(required = false) String keyword) {
 		Pageable pageable = PageRequest.of(page, size);
-        Page<Product> productPage = productService.getAllProducts(pageable);
+		Page<Product> productPage;
+
+        // If a keyword is provided, search the products, otherwise get all
+        if (keyword != null && !keyword.isEmpty()) {
+            productPage = productService.searchProducts(keyword, pageable);
+        } else {
+            productPage = productService.getAllProducts(pageable);
+        }
+        
         Map<String, Object> response = new HashMap<>();
         response.put("count", productPage.getTotalElements());
         response.put("resPerPage", size);

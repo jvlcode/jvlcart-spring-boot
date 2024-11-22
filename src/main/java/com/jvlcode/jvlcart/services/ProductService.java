@@ -14,7 +14,14 @@ public class ProductService {
 	@Autowired
 	private ProductRepository productRepository;
 	
-	public Page<Product> getAllProducts(Pageable pageable) {
-		return productRepository.findAll(pageable);
-	}
+
+	 // Method to search products by keyword in name or description
+    public Page<Product> searchProducts(String keyword, Pageable pageable) {
+        return productRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(keyword, keyword, pageable);
+    }
+
+    // Method to fetch all products with pagination
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
 }
